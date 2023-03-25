@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { RavenInterceptor, RavenModule } from 'nest-raven';
+import { ApiModule } from './api/api.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ApiOutputInterceptor } from './common/api-response.interceptor';
@@ -13,22 +14,23 @@ import { ApiOutputInterceptor } from './common/api-response.interceptor';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    SequelizeModule.forRoot({
-      dialect: 'mariadb',
-      host: process.env.DB_HOST,
-      port: Number(process.env.DB_PORT),
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
-      timezone: 'Asia/Seoul',
-    }),
-    RedisModule.forRoot({
-      config: {
-        url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
-      },
-    }),
+    // SequelizeModule.forRoot({
+    //   dialect: 'mariadb',
+    //   host: process.env.DB_HOST,
+    //   port: Number(process.env.DB_PORT),
+    //   username: process.env.DB_USERNAME,
+    //   password: process.env.DB_PASSWORD,
+    //   database: process.env.DB_DATABASE,
+    //   timezone: 'Asia/Seoul',
+    // }),
+    // RedisModule.forRoot({
+    //   config: {
+    //     url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
+    //   },
+    // }),
 
     RavenModule,
+    ApiModule,
   ],
   controllers: [AppController],
   providers: [

@@ -2,10 +2,17 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import * as Sentry from '@sentry/node';
-import { BoardModule } from './board/board.module';
+import { ApiModule } from './api/api.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    cors: true,
+  });
+
+  app.enableCors({
+    origin: '*',
+    credentials: true,
+  });
 
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
@@ -13,15 +20,15 @@ async function bootstrap() {
   });
 
   const config = new DocumentBuilder()
-    .setTitle('NestJS API')
-    .setDescription('The NestJS API description')
+    .setTitle("Haenu's GPT API")
+    .setDescription('Open GPT APIs by Haenu')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config, {
-    include: [BoardModule],
+    include: [ApiModule],
   });
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('docs', app, document);
 
-  await app.listen(3000);
+  await app.listen(9900);
 }
 bootstrap();
