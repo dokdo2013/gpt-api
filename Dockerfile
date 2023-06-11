@@ -6,7 +6,7 @@ ENV NODE_ENV build
 WORKDIR /app
 
 # If an .env file is required for your application, create a default one here
-COPY .env.skel /app/.env
+# COPY .env.skel /app/.env
 
 COPY . /app
 
